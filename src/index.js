@@ -60,6 +60,7 @@ function getNames(cb) {
   });
 }
 
+var interval = process.env['TWITCH_STATUS_RECORDER_INTERVAL'] === null ? 60000 : process.env.TWITCH_STATUS_RECORDER_INTERVAL;
 setInterval(function() {
   getNames(function(names) {
     getCurrentStatuses(names, function(currentStatuses) {
@@ -69,5 +70,5 @@ setInterval(function() {
       });
     });
   });
-}, process.env.TWITCH_STATUS_RECORDER_INTERVAL ?? 60000);
+}, interval);
 
