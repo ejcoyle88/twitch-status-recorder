@@ -50,11 +50,11 @@ function getCurrentStatuses(names, cb) {
 }
 
 function getDifferingStatuses(statuses, nextStatuses) {
-
+  return nextStatuses;
 }
 
 function saveStatuses(statuses) {
-
+  console.log(statuses);
 }
 
 function getNames(cb) {
