@@ -5,6 +5,10 @@ var pg = require('pg');
 pg.defaults.ssl = true;
 
 function withDb(cb) {
+  var dbString = process.env['DATABASE_URL'];
+  if(dbString == null) {
+    throw new Error('You must set a DATABASE_URL enviroment variable containing the database connection string');
+  }
   pg.connect(process.env.DATABASE_URL, function(err, client) {
     if(err) {
       throw err;
