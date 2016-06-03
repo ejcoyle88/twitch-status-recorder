@@ -9,6 +9,7 @@
   "author": "Elliot Coyle <elliot@vaetek.biz>",
   "license": "MIT",
   "dependencies": {
+    "lodash": "^4.13.1",
     "pg": "4.5.5",
     "request": "^2.72.0"
   }
