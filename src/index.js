@@ -11,6 +11,7 @@ function withDb(cb) {
   }
   pg.connect(process.env.DATABASE_URL, function(err, client) {
     if(err) {
+      console.log(err);
       throw err;
     }
     cb(client);
