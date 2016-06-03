@@ -20,10 +20,10 @@ function withDb(cb) {
 
 function sanatizeNames(names) {
   return names.map(function(n) {
-    if(n.contains(' ')) {
+    if(n.indexOf(' ') >= 0) {
       throw new Error('Usernames cannot contain a space (' + n + ')');
     }
-    return n.toLowerCase().Trim();
+    return n.toLowerCase();
   });
 }
 
@@ -42,8 +42,9 @@ function getNextStatuses(names, cb) {
 
 function getCurrentStatuses(names, cb) {
   withDb(function(db) {
-    var nameCsv = names.join();
-    db.query('SELECT ss.* FROM streamer_statuses ss INNER JOIN streamer s ON s.id = ss.streamer_id WHERE s.name IN (' + nameCsv + ') HAVING MAX(ss.timestamp) GROUP BY s.id')
+    var nameCsv = names.map(function(n) { return '\'' + n + '\''; }).join();
+    console.log(nameCsv);
+    db.query('SELECT DISTINCT ON (s.id) ss.* FROM streamer_status ss INNER JOIN streamer s ON s.id = ss.streamer_id WHERE s.name IN (' + nameCsv + ') ORDER BY s.id, ss.timestamp')
       .on('row', function(row, result) { result.addRow(row); })
       .on('end', function(result) { cb(result.rows); });
   });
@@ -61,7 +62,7 @@ function getNames(cb) {
   withDb(function(db) {
     db.query('select name FROM streamer')
       .on('row', function(row, result) { result.addRow(row); })
-      .on('end', function(result) { cb(result.rows); });
+      .on('end', function(result) { cb(result.rows.map(function(s) { return s.name })); });
   });
 }
 
