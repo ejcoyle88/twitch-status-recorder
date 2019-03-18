@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.13.1",
-    "pg": "4.5.7",
+    "pg": "7.9.0",
     "request": "^2.72.0"
   }
 }
